@@ -4,95 +4,138 @@ using UnityEngine;
 
 public class GLDraw : MonoBehaviour
 {
+  public Material mat;
+  public Vector2 sb;
+  public List<Food> foods = new List<Food>();
+
+  private void Start()
+  {
+    sb = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+    InvokeRepeating("RainFood", 0.0f, 0.1f);
+    InvokeRepeating("CreateMeatball", 0.0f, 3.3f);
+    InvokeRepeating("CreatePizza", 7.0f, 7.0f);
+  }
+
+  private void Update()
+  {
+    sb = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+  }
+
+  private void OnPostRender()
+  {
+    Ground();
+
+    foods.ForEach(delegate (Food food)
+    {
+      food.DrawFood();
+    });
+  }
+
+  private void RainFood()
+  {
+    foods.ForEach(delegate (Food food)
+    {
+      food.y -= food.dropSpeed;
+    });
+
+    foods.RemoveAll(food => food.y < sb.y * (-1) + 3);
+  }
+
+  private void CreateMeatball()
+  {
+    float x = Random.Range(sb.x * -1, sb.x - 1);
+
+    if (foods.Count < 5) foods.Add(new Meatball(x, sb.y, mat));
+  }
+
+  private void CreatePizza()
+  {
+    float x = Random.Range(sb.x * -1, sb.x - 1);
+
+    if (foods.Count < 5) foods.Add(new Pizza(x, sb.y, mat));
+  }
+
+  void Ground()
+  {
+    GL.PushMatrix();
+    mat.SetPass(0);
+    GL.Begin(GL.QUADS);
+    GL.Color(Color.grey);
+
+    GL.Vertex3(sb.x * (-1), sb.y * (-1), 0);
+    GL.Vertex3(sb.x * (-1), sb.y * (-1) + 3, 0);
+    GL.Vertex3(sb.x, sb.y * (-1) + 3, 0);
+    GL.Vertex3(sb.x, sb.y * (-1), 0);
+
+    GL.End();
+    GL.PopMatrix();
+  }
+
+  public class Food
+  {
+    public float x;
+    public float y;
     public Material mat;
-    public Vector2 sb;
-    public List<Food> foods = new List<Food>();
+    public float dropSpeed;
+    public int score;
 
-    private void Start()
+    public Food(float xPos, float yPos, Material material)
     {
-        sb = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        InvokeRepeating("RainFood", 0.0f, 0.1f);
-        InvokeRepeating("CreateFood", 0.0f, 3.3f);
+      x = xPos;
+      y = yPos;
+      mat = material;
     }
 
-    private void Update()
+    public virtual void DrawFood() {}
+  }
+
+  public class Meatball : Food
+  {
+    public Meatball(float xPos, float yPos, Material material) : base(xPos, yPos, material)
     {
-        sb = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+      score = 100;
+      dropSpeed = 0.2f;
     }
 
-    private void OnPostRender()
+    public override void DrawFood()
     {
-        Ground();
-        
-        foods.ForEach(delegate(Food food)
-        {
-            food.DrawFood();
-        });
+      GL.PushMatrix();
+      mat.SetPass(0);
+      GL.Begin(GL.QUADS);
+      GL.Color(Color.red);
 
-        // Food food = new Food(0, 0, mat);
-        // food.DrawFood();
+      GL.Vertex3(x, y, 0);
+      GL.Vertex3(x, y + 1, 0);
+      GL.Vertex3(x + 1, y + 1, 0);
+      GL.Vertex3(x + 1, y, 0);
+
+      GL.End();
+      GL.PopMatrix();
+    }
+  }
+
+  public class Pizza : Food
+  {
+    public Pizza(float xPos, float yPos, Material material) : base(xPos, yPos, material)
+    {
+      score = 300;
+      dropSpeed = 0.35f;
     }
 
-    private void RainFood()
+    public override void DrawFood()
     {
-        foods.ForEach(delegate(Food food)
-        {
-            food.y -= 0.2f;
-        });
+      GL.PushMatrix();
+      mat.SetPass(0);
+      GL.Begin(GL.QUADS);
+      GL.Color(Color.yellow);
 
-        foods.RemoveAll(food => food.y < sb.y * (-1) + 3);
+      GL.Vertex3(x, y, 0);
+      GL.Vertex3(x, y + 1, 0);
+      GL.Vertex3(x + 1, y + 1, 0);
+      GL.Vertex3(x + 1, y, 0);
+
+      GL.End();
+      GL.PopMatrix();
     }
-
-    private void CreateFood()
-    {
-        float x = Random.Range(sb.x * -1, sb.x - 1);
-
-        if (foods.Count < 5) foods.Add(new Food(x, sb.y, mat));
-    }
-
-    void Ground()
-    {
-        GL.PushMatrix();
-        mat.SetPass(0);
-        GL.Begin(GL.QUADS);
-        GL.Color(Color.grey);
-
-        GL.Vertex3(sb.x  * (-1), sb.y * (-1), 0);
-        GL.Vertex3(sb.x  * (-1), sb.y * (-1) + 3, 0);
-        GL.Vertex3(sb.x, sb.y * (-1) + 3, 0);
-        GL.Vertex3(sb.x, sb.y * (-1), 0);
-
-        GL.End();
-        GL.PopMatrix();
-    }
-
-    public class Food
-    {
-        public float x;
-        public float y;
-        public Material mat;
-
-        public Food(float xPos, float yPos, Material material)
-        {
-            x = xPos;
-            y = yPos;
-            mat = material;
-        }
-
-        public void DrawFood()
-        {
-            GL.PushMatrix();
-            mat.SetPass(0);
-            GL.Begin(GL.QUADS);
-            GL.Color(Color.red);
-
-            GL.Vertex3(x, y, 0);
-            GL.Vertex3(x, y + 1, 0);
-            GL.Vertex3(x + 1, y + 1, 0);
-            GL.Vertex3(x + 1, y, 0);
-
-            GL.End();
-            GL.PopMatrix();
-        }
-    }
+  }
 }
