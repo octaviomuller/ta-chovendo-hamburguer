@@ -12,8 +12,8 @@ public class GLDraw : MonoBehaviour
   {
     sb = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
     InvokeRepeating("RainFood", 0.0f, 0.1f);
-    InvokeRepeating("CreateMeatball", 0.0f, 3.3f);
-    InvokeRepeating("CreatePizza", 7.0f, 7.0f);
+    InvokeRepeating("CreateMeatball", 0.0f, 1.3f);
+  InvokeRepeating("CreatePizza", 7.0f, 7.0f);
   }
 
   private void Update()
@@ -99,15 +99,43 @@ public class GLDraw : MonoBehaviour
 
     public override void DrawFood()
     {
+      Color color = new Color(0.6f, 0.15f, 0.15f, 1f);
+
       GL.PushMatrix();
       mat.SetPass(0);
       GL.Begin(GL.QUADS);
-      GL.Color(Color.red);
+      GL.Color(color);
 
-      GL.Vertex3(x, y, 0);
-      GL.Vertex3(x, y + 1, 0);
-      GL.Vertex3(x + 1, y + 1, 0);
-      GL.Vertex3(x + 1, y, 0);
+      GL.Vertex3(x + 0.1f, y + 0.1f, 0);
+      GL.Vertex3(x + 0.1f, y + 0.9f, 0);
+      GL.Vertex3(x + 0.9f, y + 0.9f, 0);
+      GL.Vertex3(x + 0.9f, y + 0.1f, 0);
+
+      GL.End();
+      GL.PopMatrix();
+
+      GL.PushMatrix();
+      mat.SetPass(0);
+      GL.Begin(GL.QUADS);
+      GL.Color(color);
+
+      GL.Vertex3(x + 0.2f, y, 0);
+      GL.Vertex3(x + 0.2f, y + 1, 0);
+      GL.Vertex3(x + 0.8f, y + 1, 0);
+      GL.Vertex3(x + 0.8f, y, 0);
+
+      GL.End();
+      GL.PopMatrix();
+
+      GL.PushMatrix();
+      mat.SetPass(0);
+      GL.Begin(GL.QUADS);
+      GL.Color(color);
+
+      GL.Vertex3(x, y + 0.2f, 0);
+      GL.Vertex3(x, y + 0.8f, 0);
+      GL.Vertex3(x + 1, y + 0.8f, 0);
+      GL.Vertex3(x + 1, y + 0.2f, 0);
 
       GL.End();
       GL.PopMatrix();
@@ -126,13 +154,51 @@ public class GLDraw : MonoBehaviour
     {
       GL.PushMatrix();
       mat.SetPass(0);
-      GL.Begin(GL.QUADS);
+      GL.Begin(GL.TRIANGLES);
       GL.Color(Color.yellow);
 
-      GL.Vertex3(x, y, 0);
-      GL.Vertex3(x, y + 1, 0);
-      GL.Vertex3(x + 1, y + 1, 0);
-      GL.Vertex3(x + 1, y, 0);
+      GL.Vertex3(x + 0.5f, y, 0);
+      GL.Vertex3(x , y + 1.25f, 0);
+      GL.Vertex3(x + 1, y + 1.25f, 0);
+
+      GL.End();
+      GL.PopMatrix();
+
+      GL.PushMatrix();
+      mat.SetPass(0);
+      GL.Begin(GL.QUADS);
+      GL.Color(Color.red);
+
+      GL.Vertex3(x + 0.25f, y + 1.00f, 0);
+      GL.Vertex3(x + 0.25f, y + 1.20f, 0);
+      GL.Vertex3(x + 0.40f, y + 1.20f, 0);
+      GL.Vertex3(x + 0.40f, y + 1.00f, 0);
+
+      GL.End();
+      GL.PopMatrix();
+
+      GL.PushMatrix();
+      mat.SetPass(0);
+      GL.Begin(GL.QUADS);
+      GL.Color(Color.red);
+
+      GL.Vertex3(x + 0.60f, y + 0.80f, 0);
+      GL.Vertex3(x + 0.60f, y + 0.95f, 0);
+      GL.Vertex3(x + 0.75f, y + 0.95f, 0);
+      GL.Vertex3(x + 0.75f, y + 0.80f, 0);
+
+      GL.End();
+      GL.PopMatrix();
+
+      GL.PushMatrix();
+      mat.SetPass(0);
+      GL.Begin(GL.QUADS);
+      GL.Color(Color.red);
+
+      GL.Vertex3(x + 0.45f, y + 0.30f, 0);
+      GL.Vertex3(x + 0.45f, y + 0.45f, 0);
+      GL.Vertex3(x + 0.60f, y + 0.45f, 0);
+      GL.Vertex3(x + 0.60f, y + 0.30f, 0);
 
       GL.End();
       GL.PopMatrix();
