@@ -6,12 +6,15 @@ public class GLDraw : MonoBehaviour
 {
     public Material mat;
     public Vector2 sb;
-    public Food food;
+    public List<Food> foods = new List<Food>();
 
     private void Start()
     {
         sb = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        food = new Food(1f, 2f, mat);
+        foods.Add(new Food(4, sb.y, mat));
+        foods.Add(new Food(0, sb.y, mat));
+        foods.Add(new Food(-4, sb.y, mat));
+        InvokeRepeating("RainFood", 2.0f, 0.5f);
     }
 
     private void Update()
@@ -22,8 +25,24 @@ public class GLDraw : MonoBehaviour
     private void OnPostRender()
     {
         Ground();
+        
+        foods.ForEach(delegate(Food food)
+        {
+            food.DrawFood();
+        });
 
-        food.DrawFood();
+        // Food food = new Food(0, 0, mat);
+        // food.DrawFood();
+    }
+
+    private void RainFood()
+    {
+        foods.ForEach(delegate(Food food)
+        {
+            food.y -= 1;
+        });
+
+        foods.RemoveAll(food => food.y < sb.y * (-1) + 3);
     }
 
     void Ground()
@@ -44,9 +63,9 @@ public class GLDraw : MonoBehaviour
 
     public class Food
     {
-        private float x;
-        private float y;
-        private Material mat;
+        public float x;
+        public float y;
+        public Material mat;
 
         public Food(float xPos, float yPos, Material material)
         {
@@ -55,25 +74,17 @@ public class GLDraw : MonoBehaviour
             mat = material;
         }
 
-        public float getX() {
-            return x;
-        }
-
-        public float getY() {
-            return y;
-        }
-
         public void DrawFood()
         {
             GL.PushMatrix();
             mat.SetPass(0);
             GL.Begin(GL.QUADS);
-            GL.Color(Color.grey);
+            GL.Color(Color.red);
 
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 1, 0);
-            GL.Vertex3(1, 1, 0);
-            GL.Vertex3(1, 0, 0);
+            GL.Vertex3(x, y, 0);
+            GL.Vertex3(x, y + 1, 0);
+            GL.Vertex3(x + 1, y + 1, 0);
+            GL.Vertex3(x + 1, y, 0);
 
             GL.End();
             GL.PopMatrix();
