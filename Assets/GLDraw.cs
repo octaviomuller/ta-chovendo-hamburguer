@@ -13,7 +13,8 @@ public class GLDraw : MonoBehaviour
     sb = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
     InvokeRepeating("RainFood", 0.0f, 0.1f);
     InvokeRepeating("CreateMeatball", 0.0f, 1.3f);
-  InvokeRepeating("CreatePizza", 7.0f, 7.0f);
+    InvokeRepeating("CreatePizza", 7.0f, 7.0f);
+    InvokeRepeating("CreateHamburger", 10.0f, 10.0f);
   }
 
   private void Update()
@@ -53,6 +54,13 @@ public class GLDraw : MonoBehaviour
     float x = Random.Range(sb.x * -1, sb.x - 1);
 
     if (foods.Count < 5) foods.Add(new Pizza(x, sb.y, mat));
+  }
+
+  private void CreateHamburger()
+  {
+    float x = Random.Range(sb.x * -1, sb.x - 1);
+
+    if (foods.Count < 5) foods.Add(new Hamburger(x, sb.y, mat));
   }
 
   void Ground()
@@ -199,6 +207,46 @@ public class GLDraw : MonoBehaviour
       GL.Vertex3(x + 0.45f, y + 0.45f, 0);
       GL.Vertex3(x + 0.60f, y + 0.45f, 0);
       GL.Vertex3(x + 0.60f, y + 0.30f, 0);
+
+      GL.End();
+      GL.PopMatrix();
+    }
+  }
+
+  public class Hamburger : Food
+  {
+    public Hamburger(float xPos, float yPos, Material material) : base(xPos, yPos, material)
+    {
+      score = 500;
+      dropSpeed = 0.4f;
+    }
+
+    public override void DrawFood()
+    {
+      Color color = new Color(0.6f, 0.15f, 0.15f, 1f);
+
+      GL.PushMatrix();
+      mat.SetPass(0);
+      GL.Begin(GL.QUADS);
+      GL.Color(Color.yellow);
+
+      GL.Vertex3(x + 0.1f, y + 0.1f, 0);
+      GL.Vertex3(x + 0.1f, y + 0.9f, 0);
+      GL.Vertex3(x + 0.9f, y + 0.9f, 0);
+      GL.Vertex3(x + 0.9f, y + 0.1f, 0);
+
+      GL.End();
+      GL.PopMatrix();
+
+      GL.PushMatrix();
+      mat.SetPass(0);
+      GL.Begin(GL.QUADS);
+      GL.Color(color);
+
+      GL.Vertex3(x, y + 0.25f, 0);
+      GL.Vertex3(x, y + 0.75f, 0);
+      GL.Vertex3(x + 1, y + 0.75f, 0);
+      GL.Vertex3(x + 1, y + 0.25f, 0);
 
       GL.End();
       GL.PopMatrix();
