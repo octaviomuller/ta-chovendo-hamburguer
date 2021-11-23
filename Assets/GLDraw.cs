@@ -11,8 +11,8 @@ public class GLDraw : MonoBehaviour
     private void Start()
     {
         sb = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        InvokeRepeating("RainFood", 0.0f, 0.5f);
-        InvokeRepeating("CreateFood", 0.0f, 2f);
+        InvokeRepeating("RainFood", 0.0f, 0.1f);
+        InvokeRepeating("CreateFood", 0.0f, 3.3f);
     }
 
     private void Update()
@@ -37,7 +37,7 @@ public class GLDraw : MonoBehaviour
     {
         foods.ForEach(delegate(Food food)
         {
-            food.y -= 1;
+            food.y -= 0.2f;
         });
 
         foods.RemoveAll(food => food.y < sb.y * (-1) + 3);
