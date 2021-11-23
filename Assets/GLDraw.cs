@@ -37,9 +37,11 @@ public class GLDraw : MonoBehaviour
     foods.ForEach(delegate (Food food)
     {
       food.y -= food.dropSpeed;
+      food.yBoundaries[0] -= food.dropSpeed;
+      food.yBoundaries[1] -= food.dropSpeed;
     });
 
-    foods.RemoveAll(food => food.y < sb.y * (-1) + 3);
+    foods.RemoveAll(food => food.yBoundaries[0] < sb.y * (-1) + 3);
   }
 
   private void CreateMeatball()
@@ -86,12 +88,16 @@ public class GLDraw : MonoBehaviour
     public Material mat;
     public float dropSpeed;
     public int score;
+    public float[] xBoundaries;
+    public float[] yBoundaries;
 
     public Food(float xPos, float yPos, Material material)
     {
       x = xPos;
       y = yPos;
       mat = material;
+      xBoundaries = new float[2] {x, x + 1};
+      yBoundaries = new float[2] {y, y + 1};
     }
 
     public virtual void DrawFood() {}
