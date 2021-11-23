@@ -11,10 +11,8 @@ public class GLDraw : MonoBehaviour
     private void Start()
     {
         sb = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        foods.Add(new Food(4, sb.y, mat));
-        foods.Add(new Food(0, sb.y, mat));
-        foods.Add(new Food(-4, sb.y, mat));
-        InvokeRepeating("RainFood", 2.0f, 0.5f);
+        InvokeRepeating("RainFood", 0.0f, 0.5f);
+        InvokeRepeating("CreateFood", 0.0f, 2f);
     }
 
     private void Update()
@@ -43,6 +41,13 @@ public class GLDraw : MonoBehaviour
         });
 
         foods.RemoveAll(food => food.y < sb.y * (-1) + 3);
+    }
+
+    private void CreateFood()
+    {
+        float x = Random.Range(sb.x * -1, sb.x - 1);
+
+        if (foods.Count < 5) foods.Add(new Food(x, sb.y, mat));
     }
 
     void Ground()
