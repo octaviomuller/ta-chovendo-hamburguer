@@ -24,6 +24,7 @@ public class GLDraw : MonoBehaviour
 
   private void OnPostRender()
   {
+    Background();
     Ground();
 
     foods.ForEach(delegate (Food food)
@@ -70,7 +71,8 @@ public class GLDraw : MonoBehaviour
     GL.PushMatrix();
     mat.SetPass(0);
     GL.Begin(GL.QUADS);
-    GL.Color(Color.grey);
+    Color color = new Color(0.27f, 0.72f, 0.19f, 1f);
+    GL.Color(color);
 
     GL.Vertex3(sb.x * (-1), sb.y * (-1), 0);
     GL.Vertex3(sb.x * (-1), sb.y * (-1) + 3, 0);
@@ -81,7 +83,88 @@ public class GLDraw : MonoBehaviour
     GL.PopMatrix();
   }
 
-  public class Food
+  void Background()
+  {
+    Sky();
+    Clouds();
+  }
+
+  void Sky()
+  {
+    GL.PushMatrix();
+    mat.SetPass(0);
+    GL.Begin(GL.QUADS);
+    Color color = new Color(0.4f, 0.47f, 0.61f, 1f);
+    GL.Color(color);
+
+    GL.Vertex3(sb.x * (-1), sb.y * (-1), 0);
+    GL.Vertex3(sb.x * (-1), sb.y, 0);
+    GL.Vertex3(sb.x, sb.y, 0);
+    GL.Vertex3(sb.x, sb.y * (-1), 0);
+
+    GL.End();
+    GL.PopMatrix();
+  }
+
+  void Clouds()
+  {
+    GL.PushMatrix();
+    mat.SetPass(0);
+    GL.Begin(GL.LINES);
+    Color color = new Color(0.62f, 0.62f, 0.62f, 1f);
+    GL.Color(color);
+
+    Vector3 center = new Vector3(sb.x * (-1), sb.y, 0);
+    drawCircle(center, 3.0f);
+
+    center = new Vector3(sb.x * (-1) + 2.5f, sb.y, 0);
+    drawCircle(center, 2.0f);
+
+    center = new Vector3(sb.x * (-1) + 6.5f, sb.y + 2, 0);
+    drawCircle(center, 4.0f);
+
+    center = new Vector3(sb.x * (-1) + 9.5f, sb.y + 1, 0);
+    drawCircle(center, 3.5f);
+
+    center = new Vector3(sb.x * (-1) + 13f, sb.y + 1, 0);
+    drawCircle(center, 3.5f);
+
+    center = new Vector3(sb.x * (-1) + 16.5f, sb.y + 1.5f, 0);
+    drawCircle(center, 3.5f);
+
+    center = new Vector3(sb.x * (-1) + 19.5f, sb.y, 0);
+    drawCircle(center, 2.5f);
+
+    center = new Vector3(sb.x * (-1) + 23.5f, sb.y - 0.5f, 0);
+    drawCircle(center, 2.5f);
+
+    center = new Vector3(sb.x * (-1) + 25.5f, sb.y, 0);
+    drawCircle(center, 1.5f);
+
+    center = new Vector3(sb.x * (-1) + 28.5f, sb.y, 0);
+    drawCircle(center, 2.5f);
+
+    GL.End();
+    GL.PopMatrix();
+  }
+
+  void drawCircle(Vector3 center, float radius)
+  {
+    for (float t = 0.0f; t < (2 * Mathf.PI); t += 0.001f)
+    {
+        Vector3 ci = (
+            new Vector3(Mathf.Cos(t) * radius + center.x,
+            Mathf.Sin(t) * radius + center.y,
+            center.z
+        ));
+
+            GL.Vertex3(center.x, center.y, center.z);
+            GL.Vertex3(ci.x, ci.y, ci.z);
+            GL.Vertex3(center.x, center.y, center.z);
+        }
+  }
+
+    public class Food
   {
     public float x;
     public float y;
