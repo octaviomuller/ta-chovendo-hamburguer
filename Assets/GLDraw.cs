@@ -99,7 +99,7 @@ public class GLDraw : MonoBehaviour
     GL.PushMatrix();
     mat.SetPass(0);
     GL.Begin(GL.QUADS);
-    Color color = new Color(0.27f, 0.72f, 0.19f, 1f);
+    Color color = new Color(0.13f, 0.69f, 0.18f, 1f);
     GL.Color(color);
 
     GL.Vertex3(sb.x * (-1), sb.y * (-1), 0);
@@ -122,7 +122,7 @@ public class GLDraw : MonoBehaviour
     GL.PushMatrix();
     mat.SetPass(0);
     GL.Begin(GL.QUADS);
-    Color color = new Color(0.4f, 0.47f, 0.61f, 1f);
+    Color color = new Color(0.36f, 0.77f, 0.83f, 1f);
     GL.Color(color);
 
     GL.Vertex3(sb.x * (-1), sb.y * (-1), 0);
@@ -139,7 +139,7 @@ public class GLDraw : MonoBehaviour
     GL.PushMatrix();
     mat.SetPass(0);
     GL.Begin(GL.LINES);
-    Color color = new Color(0.62f, 0.62f, 0.62f, 1f);
+    Color color = new Color(0.73f, 0.73f, 0.73f, 1f);
     GL.Color(color);
 
     Vector3 center = new Vector3(sb.x * (-1), sb.y, 0);
@@ -170,6 +170,21 @@ public class GLDraw : MonoBehaviour
     drawCircle(center, 1.5f);
 
     center = new Vector3(sb.x * (-1) + 28.5f, sb.y, 0);
+    drawCircle(center, 2.5f);
+
+    center = new Vector3(sb.x * (-1) + 31.5f, sb.y, 0);
+    drawCircle(center, 1.5f);
+
+    center = new Vector3(sb.x * (-1) + 34f, sb.y, 0);
+    drawCircle(center, 2.0f);
+
+    center = new Vector3(sb.x * (-1) + 37f, sb.y + 1, 0);
+    drawCircle(center, 3.0f);
+
+    center = new Vector3(sb.x * (-1) + 41f, sb.y, 0);
+    drawCircle(center, 2.0f);
+
+    center = new Vector3(sb.x * (-1) + 45f, sb.y - 1, 0);
     drawCircle(center, 2.5f);
 
     GL.End();
