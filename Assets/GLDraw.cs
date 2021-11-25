@@ -19,7 +19,7 @@ public class GLDraw : MonoBehaviour
   public int scoreGame = 0;
   public Text scoreText;
 
-  private void Start()
+  public void StartGame()
   {
     sb = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
     cx = 0;
