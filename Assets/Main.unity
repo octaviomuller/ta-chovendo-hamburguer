@@ -657,7 +657,7 @@ MonoBehaviour:
   sb: {x: 0, y: 0}
   cx: 0
   cy: 0
-  velo: 0.5
+  velo: 0.7
   radius: 2
   fig: {fileID: 2100000, guid: 6f9034277432cfc458cf23f8d5f88d18, type: 2}
   center: {x: 0, y: 0, z: 0}

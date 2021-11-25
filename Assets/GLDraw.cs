@@ -65,11 +65,11 @@ public class GLDraw : MonoBehaviour
       food.yBoundaries[1] -= food.dropSpeed;
       if(food.yBoundaries[0] <= cy && food.xBoundaries[0]>= cx && food.xBoundaries[1]<= cx+3.5f){
         scoreGame += food.score;
-        foods.Remove(food);
       }
       
     });
 
+    foods.RemoveAll(food => food.yBoundaries[0] <= cy && food.xBoundaries[0] >= cx && food.xBoundaries[1] <= cx + 3.5f);
     foods.RemoveAll(food => food.yBoundaries[0] < sb.y * (-1) + 3);
   }
 
